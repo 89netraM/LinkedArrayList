@@ -4,6 +4,16 @@ A LinkedArrayList is a linked list of arrays of whatever you want.
 
 Hopefully they're better at something than other list types.
 
+## How it works
+
+* The list keeps one reference to the first and last block.
+* Blocks have references the the next and previous block.
+* All but the last block must always be full.
+* All blocks must be twice the size of the one before it.
+
+`[++][++++][+++++---]`  
+Illustration
+
 ## FixedArrayList
 
 My LinkedArrayLists doesn't use plain arrays for the blocks in the linked list.
