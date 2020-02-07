@@ -46,17 +46,22 @@ public class LinkedArrayList<T> implements List<T> {
 		FixedArrayList<T> arrayList = last.getArray();
 
 		if (arrayList.isFull()) {
-			arrayList = new FixedArrayList<T>(arrayList.maxSize() * 2);
-			LinkedArrayBlock<T> newLast = new LinkedArrayBlock<T>(arrayList);
-			last.setNext(newLast);
-			newLast.setPrevious(last);
-			last = newLast;
+			addNewBlock();
+			arrayList = last.getArray();
 		}
 
 		arrayList.add(t);
 
 		size++;
 		return true;
+	}
+
+	private void addNewBlock() {
+		FixedArrayList<T> arrayList = new FixedArrayList<T>(last.getArray().maxSize() * 2);
+		LinkedArrayBlock<T> newLast = new LinkedArrayBlock<T>(arrayList);
+		last.setNext(newLast);
+		newLast.setPrevious(last);
+		last = newLast;
 	}
 
 	@Override
@@ -248,17 +253,21 @@ public class LinkedArrayList<T> implements List<T> {
 					}
 					else {
 						arrayList.add(0, previous);
-						break;
+						previous = null;
 					}
 				}
 
-				size++;
+				if (previous != null) {
+					addNewBlock();
+					last.getArray().add(previous);
+				}
 			}
 			else {
-				// We shouldn't be able to get here, but if
-				// we do the index is too big or too small.
-				throw new IndexOutOfBoundsException();
+				addNewBlock();
+				last.getArray().add(element);
 			}
+
+			size++;
 		}
 	}
 

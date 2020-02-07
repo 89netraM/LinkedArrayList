@@ -24,6 +24,34 @@ public class LinkedArrayListTest {
 	}
 
 	@Test
+	public void addToFullBlocks() {
+		fillList(1, 70);
+
+		assertEquals("The size should be 70.", 70, list.size());
+		assertEquals("Element at last index should be 70.", Integer.valueOf(70), list.get(list.size() - 1));
+		try {
+			Integer ignored = list.get(list.size());
+			fail("Should not be able to get an element at index =list.size().");
+		} catch (Exception ignored) { }
+		list.add(list.size(), -10);
+		assertEquals("The size should be 71.", 71, list.size());
+		assertEquals("After adding -10 at the last index, index 70 should be -10.", Integer.valueOf(-10), list.get(70));
+	}
+
+	@Test
+	public void addInTheMiddleToFullBlocks() {
+		fillList(1, 70);
+
+		assertEquals("The size should be 70.", 70, list.size());
+		assertEquals("Element with index 49 should be 50.", Integer.valueOf(50), list.get(49));
+		assertEquals("Element with index 50 should be 51.", Integer.valueOf(51), list.get(50));
+		list.add(49, -10);
+		assertEquals("The size should be 71.", 71, list.size());
+		assertEquals("After adding -10 at index 49, index 49 should be -10.", Integer.valueOf(-10), list.get(49));
+		assertEquals("After adding -10 at index 49, index 50 should be 50.", Integer.valueOf(50), list.get(50));
+	}
+
+	@Test
 	public void get() {
 		fillList(1, 100);
 
