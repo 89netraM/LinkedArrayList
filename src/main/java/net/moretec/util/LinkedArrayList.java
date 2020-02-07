@@ -8,6 +8,7 @@ public class LinkedArrayList<T> implements List<T> {
 
 	private LinkedArrayBlock<T> first;
 	private LinkedArrayBlock<T> last;
+	private int blockCount = 1;
 	private int size = 0;
 
 	public LinkedArrayList() {
@@ -57,11 +58,13 @@ public class LinkedArrayList<T> implements List<T> {
 	}
 
 	private void addNewBlock() {
-		FixedArrayList<T> arrayList = new FixedArrayList<T>(last.getArray().maxSize() * 2);
+		FixedArrayList<T> arrayList = new FixedArrayList<T>(last.getArray().size() * 2);
 		LinkedArrayBlock<T> newLast = new LinkedArrayBlock<T>(arrayList);
 		last.setNext(newLast);
 		newLast.setPrevious(last);
 		last = newLast;
+
+		blockCount++;
 	}
 
 	@Override
@@ -94,13 +97,24 @@ public class LinkedArrayList<T> implements List<T> {
 		return false;
 	}
 
+	private int getHalfBlockSize() {
+		int halfSize = 0;
+		int blockSize = first.getArray().size();
+		for (int i = 1; i < blockCount / 2; i++) {
+			halfSize += blockSize;
+			blockSize *= 2;
+		}
+
+		return halfSize;
+	}
+
 	@Override
 	public T get(int index) {
 		if (index < 0 || size() <= index) {
 			throw new IndexOutOfBoundsException();
 		}
 		else {
-			if (index < size() / 2) {
+			if (index < getHalfBlockSize()) {
 				LinkedArrayBlock<T> block = first;
 				while (block != null) {
 					FixedArrayList<T> arrayList = block.getArray();
@@ -147,7 +161,7 @@ public class LinkedArrayList<T> implements List<T> {
 			throw new IndexOutOfBoundsException();
 		}
 		else {
-			if (index < size() / 2) {
+			if (index < getHalfBlockSize()) {
 				LinkedArrayBlock<T> block = first;
 				while (block != null) {
 					FixedArrayList<T> arrayList = block.getArray();
@@ -197,7 +211,7 @@ public class LinkedArrayList<T> implements List<T> {
 			T previous = null;
 			LinkedArrayBlock<T> block;
 
-			if (index < size() / 2) {
+			if (index < getHalfBlockSize()) {
 				block = first;
 
 				while (block != null) {
@@ -281,7 +295,7 @@ public class LinkedArrayList<T> implements List<T> {
 			FixedArrayList<T> previous = null;
 			T removed = null;
 
-			if (index < size() / 2) {
+			if (index < getHalfBlockSize()) {
 				block = first;
 
 				while (block != null) {
@@ -349,6 +363,7 @@ public class LinkedArrayList<T> implements List<T> {
 		if (last.getArray().isEmpty()) {
 			last = last.getPrevious();
 			last.setNext(null);
+			blockCount--;
 		}
 	}
 
