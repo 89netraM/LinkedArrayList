@@ -7,7 +7,6 @@ class FixedArrayList<T> {
 	private final T[] array;
 	private int size = 0;
 	private int front = 0;
-	private int rear = 0;
 
 	@SuppressWarnings("unchecked")
 	FixedArrayList(int maxSize) {
@@ -58,7 +57,7 @@ class FixedArrayList<T> {
 			throw new IndexOutOfBoundsException();
 		}
 		else {
-			return array[(front + index) % maxSize()];
+			return array[positionFromStart(index)];
 		}
 	}
 
@@ -67,10 +66,14 @@ class FixedArrayList<T> {
 			throw new IndexOutOfBoundsException();
 		}
 		else {
-			T temp = array[(front + index) % maxSize()];
-			array[(front + index) % maxSize()] = element;
+			T temp = array[positionFromStart(index)];
+			array[positionFromStart(index)] = element;
 			return temp;
 		}
+	}
+
+	private int positionFromStart(int offset) {
+		return ((front + offset) % maxSize() + maxSize()) % maxSize();
 	}
 
 	boolean add(int index, T element) throws IndexOutOfBoundsException {
@@ -111,7 +114,6 @@ class FixedArrayList<T> {
 			}
 		}
 		else {
-			rear = (rear + 1) % maxSize();
 			size++;
 			T previous = null;
 			for (int i = index; i < size(); i++) {
@@ -133,7 +135,6 @@ class FixedArrayList<T> {
 			for (int i = size() - 1; i >= index; i--) {
 				previous = set(i, previous);
 			}
-			rear = (rear - 1) % maxSize();
 			size--;
 		}
 	}
