@@ -157,7 +157,7 @@ public class LinkedArrayList<T> implements List<T> {
 
 	@Override
 	public T set(int index, T element) {
-		if (index < 0 || size() < index) {
+		if (index < 0 || size() <= index) {
 			throw new IndexOutOfBoundsException();
 		}
 		else {
@@ -240,7 +240,7 @@ public class LinkedArrayList<T> implements List<T> {
 					FixedArrayList<T> arrayList = block.getArray();
 
 					index += arrayList.size();
-					if (index < arrayList.size()) {
+					if (index >= 0 && index < arrayList.size()) {
 						if (arrayList.isFull()) {
 							previous = arrayList.remove(arrayList.size() - 1);
 						}
@@ -320,7 +320,7 @@ public class LinkedArrayList<T> implements List<T> {
 					previous = block.getArray();
 
 					index += previous.size();
-					if (index < previous.size()) {
+					if (index >= 0) {
 
 						removed = previous.remove(index);
 						break;
