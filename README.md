@@ -9,9 +9,9 @@ Hopefully they're better at something than other list types.
 * The list keeps one reference to the first and last block.
 * Blocks have references the the next and previous block.
 * All but the last block must always be full.
-* All blocks must be twice the size of the one before it.
+* All blocks have the same size.
 
-`[++][++++][+++++---]`  
+`[++++][++++][++--]`  
 Illustration
 
 ## FixedArrayList
