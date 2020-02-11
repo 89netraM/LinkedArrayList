@@ -25,10 +25,10 @@ big O of at most Θ(n/2) for insertions/deletions and Θ(1) in either end.
 
 |                            | LinkedList  | ArrayList | FixedArrayList | LinkedArrayList |
 |----------------------------|------------:|----------:|---------------:|----------------:|
-| Indexing                   |        Θ(n) |      Θ(1) |           Θ(1) |     Coming soon |
-| Insert/delete at beginning |        Θ(1) |      Θ(n) |           Θ(1) |     Coming soon |
-| Insert/delete at end       |        Θ(1) |     Θ(1)* |           Θ(1) |     Coming soon |
-| Insert/delete at index     |        Θ(n) |      Θ(n) |         Θ(n/2) |     Coming soon |
+| Indexing                   |    `Θ(n/2)` |    `Θ(1)` |         `Θ(1)` |      `O(n/b/2)` |
+| Insert/delete at beginning |      `Θ(1)` |    `Θ(n)` |         `Θ(1)` |        `O(n/b)` |
+| Insert/delete at end       |      `Θ(1)` |   `Θ(1)`* |         `Θ(1)` |          `O(1)` |
+| Insert/delete at index     |    `Θ(n/2)` |    `Θ(n)` |       `Θ(n/2)` |  `O(n/b + b/2)` |
 
 *Amortized
 
