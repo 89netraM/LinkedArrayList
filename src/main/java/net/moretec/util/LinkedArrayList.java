@@ -423,9 +423,6 @@ public class LinkedArrayList<T> implements List<T> {
 		private void setPrevious(LinkedArrayBlock<T> previous) {
 			this.previous = previous;
 		}
-		private boolean hasPrevious() {
-			return previous != null;
-		}
 
 		private FixedArrayList<T> getArray() {
 			return array;
@@ -436,9 +433,6 @@ public class LinkedArrayList<T> implements List<T> {
 		}
 		private void setNext(LinkedArrayBlock<T> next) {
 			this.next = next;
-		}
-		private boolean hasNext() {
-			return next != null;
 		}
 	}
 
