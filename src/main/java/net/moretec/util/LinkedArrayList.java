@@ -4,18 +4,20 @@ import java.util.*;
 
 
 public class LinkedArrayList<T> implements List<T> {
-	private static final int defaultInitialCapacity = 10;
+	private static final int defaultBlockCapacity = 10;
 
 	private LinkedArrayBlock<T> first;
 	private LinkedArrayBlock<T> last;
+	private final int blockCapacity;
 	private int blockCount = 1;
 	private int size = 0;
 
 	public LinkedArrayList() {
-		this(defaultInitialCapacity);
+		this(defaultBlockCapacity);
 	}
-	public LinkedArrayList(int initialCapacity) {
-		first = last = new LinkedArrayBlock<>(new FixedArrayList<>(initialCapacity));
+	public LinkedArrayList(int blockCapacity) {
+		this.blockCapacity = blockCapacity;
+		first = last = new LinkedArrayBlock<>(new FixedArrayList<>(this.blockCapacity));
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class LinkedArrayList<T> implements List<T> {
 	}
 
 	private void addNewBlock() {
-		FixedArrayList<T> arrayList = new FixedArrayList<T>(last.getArray().size() * 2);
+		FixedArrayList<T> arrayList = new FixedArrayList<T>(blockCapacity);
 		LinkedArrayBlock<T> newLast = new LinkedArrayBlock<T>(arrayList);
 		last.setNext(newLast);
 		newLast.setPrevious(last);
@@ -98,14 +100,7 @@ public class LinkedArrayList<T> implements List<T> {
 	}
 
 	private int getHalfBlockSize() {
-		int halfSize = 0;
-		int blockSize = first.getArray().size();
-		for (int i = 1; i < blockCount / 2; i++) {
-			halfSize += blockSize;
-			blockSize *= 2;
-		}
-
-		return halfSize;
+		return blockCapacity * blockCount;
 	}
 
 	@Override
